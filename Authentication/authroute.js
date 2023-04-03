@@ -34,7 +34,6 @@ Router.get("/logout", (req, res) => {
 });
 
 Router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
-
 Router.get(
   "/google/callback",
   passport.authenticate("google", {
@@ -42,17 +41,9 @@ Router.get(
     successRedirect: CLIENT_URL,
   })
 );
-Router.post("/user/login", (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
-    if (err) throw err;
-    if (!user) res.send("wrong email and password");
-    else {
-      req.logIn(user, (err) => {
-        if (err) throw err;
-        res.send(true);
-      });
-    }
-  })(req, res, next);
+Router.post("/user/login", passport.authenticate("local"), (req, res) => {
+  console.log(req.session);
+  res.redirect(CLIENT_URL);
 });
 Router.post("/register", (req, res) => {
   User.findOne({ email: req.body.email }, async (err, user) => {
