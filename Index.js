@@ -30,8 +30,8 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // Set the secure flag to true
-      httpOnly: false,
+      secure: true, // Set the secure flag to true
+      httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // Session expires in 1 day
       sameSite: "none",
     },
