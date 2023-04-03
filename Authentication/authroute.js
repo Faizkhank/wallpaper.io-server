@@ -42,8 +42,11 @@ Router.get(
   })
 );
 Router.post("/user/login", passport.authenticate("local"), (req, res) => {
-  console.log(req.session);
-  res.redirect(CLIENT_URL);
+  if (req.session) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
 });
 Router.post("/register", (req, res) => {
   User.findOne({ email: req.body.email }, async (err, user) => {
