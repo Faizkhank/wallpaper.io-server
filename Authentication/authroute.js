@@ -43,7 +43,7 @@ Router.get(
 );
 Router.post("/user/login", passport.authenticate("local"), (req, res) => {
   if (req.user) {
-    res.cookie("sessionid", "user");
+    res.cookie();
     res.send(true);
   } else {
     res.send(false);
