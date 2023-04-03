@@ -42,16 +42,8 @@ Router.get(
   })
 );
 Router.post("/user/login", passport.authenticate("local"), (req, res) => {
-  if (req.user) {
-    res.cookie("sessionid", "user", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
-    res.send(true);
-  } else {
-    res.send(false);
-  }
+  res.cookie("sessionid", "user");
+  res.send(true);
 });
 Router.post("/register", (req, res) => {
   User.findOne({ email: req.body.email }, async (err, user) => {
