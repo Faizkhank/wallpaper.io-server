@@ -42,7 +42,12 @@ Router.get(
   })
 );
 Router.post("/user/login", passport.authenticate("local"), (req, res) => {
-  res.cookie("sessionid", "user");
+  res.cookie("sessionid", "user", {
+    secure: true, // Set the secure flag to true
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000, // Session expires in 1 day
+    sameSite: "none",
+  });
   res.send(true);
 });
 Router.post("/register", (req, res) => {
