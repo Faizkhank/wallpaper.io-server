@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false, limit: "2gb" }));
 app.use(
   cors({
-    origin: "https://wallpaper-weld.vercel.app",
+    origin: ["https://wallpaper-weld.vercel.app", "http://localhost:3000"],
     credentials: true,
   })
 );
@@ -30,8 +30,8 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: true, // Set the secure flag to true
-      httpOnly: true,
+      secure: false, // Set the secure flag to true
+      httpOnly: false,
       maxAge: 24 * 60 * 60 * 1000, // Session expires in 1 day
       sameSite: "none",
     },

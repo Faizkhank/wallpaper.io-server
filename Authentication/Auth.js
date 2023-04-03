@@ -39,7 +39,16 @@ passport.use(
       bcrypt.compare(password, user.password, (err, result) => {
         if (err) throw err;
         if (result === true) {
-          return done(null, user);
+          User.find({ GoogleID: user.GoogleID }, (err, data) => {
+            const userlog = {
+              displayName: data[0].displayName,
+              photos: data[0].photos,
+              id: data[0].GoogleID,
+              Totallikes: data[0].Totallikes,
+              followers: data[0].followers,
+            };
+            return done(null, userlog);
+          });
         } else {
           return done(null, false);
         }
@@ -52,6 +61,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((user, done) => {
+  console.log(user);
   User.find({ GoogleID: user }, (err, data) => {
     const userlog = {
       displayName: data[0].displayName,

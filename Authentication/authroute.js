@@ -10,7 +10,7 @@ function generateRandomNumber() {
 }
 const CLIENT_URL = "https://wallpaper-weld.vercel.app";
 Router.get("/login/success", (req, res) => {
-  console.log(req.user);
+  console.log(req.isAuthenticated());
   if (req.user) {
     res.status(200).json({
       success: true,
@@ -43,7 +43,7 @@ Router.get(
 );
 Router.post("/user/login", passport.authenticate("local"), (req, res) => {
   if (req.user) {
-    req.session.user = req.user;
+    res.cookie("sessionid", "user");
     res.send(true);
   } else {
     res.send(false);
