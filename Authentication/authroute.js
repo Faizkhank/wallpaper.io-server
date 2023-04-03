@@ -42,7 +42,8 @@ Router.get(
   })
 );
 Router.post("/user/login", passport.authenticate("local"), (req, res) => {
-  if (req.session) {
+  if (req.user) {
+    req.session.user = req.user;
     res.send(true);
   } else {
     res.send(false);
