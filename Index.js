@@ -10,6 +10,7 @@ const passportSetup = require("./Authentication/Auth");
 const User = require("./Models/UserSchema");
 const getdata = require("./query");
 const search = require("./search");
+const Imagegen = require("./AI/image_generation");
 const API = require("./Authentication/apiverify"); // not using right now
 const follow = require("./follow");
 const cors = require("cors");
@@ -87,6 +88,7 @@ app.use("/", authRoute);
 app.use("/", Upload);
 app.use("/", follow);
 app.use("/", search);
+app.use("/", Imagegen);
 app.listen(process.env.PORT || 4000, () => {
   console.log("Server runnings");
 });

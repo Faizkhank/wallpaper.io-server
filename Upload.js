@@ -14,7 +14,6 @@ cloudinary.config({
 dotenv.config();
 Router.post("/file/upload", async (req, res) => {
   const { Image } = req.files;
-  console.log(req.files);
   if (!Image) return res.sendStatus(400);
   try {
     Image.mv(__dirname + "/uploads/" + Image.name, async (err) => {
@@ -54,5 +53,7 @@ Router.delete("/:imageID", async (req, res) => {
     res.status(200).send("deleted");
   } catch (err) {}
 });
-
+Router.post("/gen/upload", async (req, res) => {
+  console.log(req.files);
+});
 module.exports = Router;
