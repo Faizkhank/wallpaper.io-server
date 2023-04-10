@@ -1,7 +1,8 @@
 const Router = require("express").Router();
 const ImageUpload = require("./Models/imageSchema");
-Router.get("/api/search", async (req, res) => {
+Router.get("/api/search/page", async (req, res) => {
   const query = req.query.q;
+  const page = req.query.p;
   try {
     const results = await ImageUpload.find({
       $or: [
@@ -9,7 +10,9 @@ Router.get("/api/search", async (req, res) => {
         { Filename: { $regex: query, $options: "i" } }, // search by description
         { tags: { $regex: query, $options: "i" } }, // search by tags
       ],
-    }).limit(6);
+    })
+      .skip(page)
+      .limit(10);
     if (results) {
       var result = [];
       results.forEach((items) => {
