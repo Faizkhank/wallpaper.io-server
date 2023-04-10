@@ -1,6 +1,6 @@
 const ImageUpload = require("./Models/imageSchema");
 const getdata = async (filter) => {
-  const data = await ImageUpload.find(filter).limit(6);
+  const data = await ImageUpload.find(filter).limit(10);
   if (data) {
     var result = [];
     data.forEach((items) => {
