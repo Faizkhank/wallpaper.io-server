@@ -43,14 +43,14 @@ Router.post("/file/upload", async (req, res) => {
 Router.delete("/:imageID", async (req, res) => {
   try {
     const Name = await ImageUpload.findById(req.params.imageID);
-
-    // url for name //
-    const NameSplit = Name.Url.split("/");
-    console.log(NameSplit);
-    const NameID = NameSplit[NameSplit.length - 1].split(".");
-    await cloudinary.uploader.destroy(NameID[0]);
-    await ImageUpload.findByIdAndDelete(req.params.imageID);
-    res.status(200).send("deleted");
+    if (Name.UploaderID === req.user.id) {
+      const NameSplit = Name.Url.split("/");
+      console.log(NameSplit);
+      const NameID = NameSplit[NameSplit.length - 1].split(".");
+      await cloudinary.uploader.destroy(NameID[0]);
+      await ImageUpload.findByIdAndDelete(req.params.imageID);
+      res.status(200).send(true);
+    } else res.status(502).send("not allowed");
   } catch (err) {}
 });
 Router.post("/gen/upload", async (req, res) => {
