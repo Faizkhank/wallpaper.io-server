@@ -1,6 +1,6 @@
 const Router = require("express").Router();
 const ImageUpload = require("./Models/imageSchema");
-Router.get("/api/search/page", async (req, res) => {
+Router.get("/api/search", async (req, res) => {
   const query = req.query.q;
   const page = req.query.p;
   try {
