@@ -43,6 +43,7 @@ Router.post("/file/upload", async (req, res) => {
 Router.delete("/:imageID", async (req, res) => {
   try {
     const Name = await ImageUpload.findById(req.params.imageID);
+    console.log(req.user);
     if (Name.UploaderID === req.user.id) {
       const NameSplit = Name.Url.split("/");
       console.log(NameSplit);
@@ -51,7 +52,9 @@ Router.delete("/:imageID", async (req, res) => {
       await ImageUpload.findByIdAndDelete(req.params.imageID);
       res.status(200).send(true);
     } else res.status(502).send("not allowed");
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 });
 Router.post("/gen/upload", async (req, res) => {
   console.log(req.files);
