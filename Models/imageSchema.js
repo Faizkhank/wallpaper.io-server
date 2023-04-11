@@ -17,6 +17,7 @@ const ImageUploadSchema = new mongoose.Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      immutable: true,
     },
   },
   { timestamps: true }
