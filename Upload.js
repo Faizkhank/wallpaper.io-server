@@ -24,7 +24,7 @@ Router.post("/file/upload", async (req, res) => {
       const image = new ImageUpload({
         Name: req.body.UserName,
         UserURL: req.body.UserIMG,
-        Filename: req.body.Name,
+        Filename: req.body.ImageName.myString.replace(/ /g, "_"),
         Date: date,
         Location: req.body.Location,
         Tags: req.body.Tags,
