@@ -10,6 +10,8 @@ const ImageUploadSchema = new mongoose.Schema(
     UserURL: String,
     UploaderID: String,
     Url: String,
+    Location: String,
+    Tags: String,
     Likes: [{ likeduser: String }],
     Views: [{ Views: String }],
     createdAt: {

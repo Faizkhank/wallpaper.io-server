@@ -3,6 +3,7 @@ const ImageUpload = require("./Models/imageSchema");
 Router.get("/api/search", async (req, res) => {
   const query = req.query.q;
   const page = req.query.p;
+  console.log(page);
   try {
     const results = await ImageUpload.find({
       $or: [
