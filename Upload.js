@@ -14,7 +14,7 @@ cloudinary.config({
 dotenv.config();
 Router.post("/file/upload", async (req, res) => {
   const { Image } = req.files;
-  const name = req.body.ImageName.myString.replace(/ /g, "_");
+  const name = req.body.ImageName.replace(/ /g, "_");
   if (!Image) return res.sendStatus(400);
   try {
     Image.mv(__dirname + "/uploads/" + Image.name, async (err) => {
