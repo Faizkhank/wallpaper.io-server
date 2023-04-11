@@ -23,7 +23,7 @@ Router.post("/file/upload", async (req, res) => {
         console.log(e);
       });
     const image = new ImageUpload({
-      Name: req.body.Name,
+      Name: req.body.UserName,
       UserURL: req.body.UserIMG,
       Filename: Name.replace(/ /g, "_"),
       Location: req.body.Location,
