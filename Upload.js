@@ -14,34 +14,32 @@ cloudinary.config({
 dotenv.config();
 Router.post("/file/upload", async (req, res) => {
   const { Image } = req.files;
-  const name = req.body.ImageName.replace(/ /g, "_");
+  const Name = req.body.ImageName;
   if (!Image) return res.sendStatus(400);
-  try {
-    Image.mv(__dirname + "/uploads/" + Image.name, async (err) => {
-      const data = await cloudinary.uploader.upload(
-        path.join(__dirname + "/uploads/" + Image.name)
-      );
-      const date = new Date();
-      const image = new ImageUpload({
-        Name: req.body.UserName,
-        UserURL: req.body.UserIMG,
-        Filename: name,
-        Date: date,
-        Location: req.body.Location,
-        Tags: req.body.Tags,
-        UploaderID: req.body.UploaderID,
-        Url: data.url,
+  Image.mv(__dirname + "/uploads/" + Image.name, async (err) => {
+    const data = await cloudinary.uploader
+      .upload(path.join(__dirname + "/uploads/" + Image.name))
+      .catch((e) => {
+        console.log(e);
       });
-      await image.save();
-      fs.unlink(path.join(__dirname, "uploads", Image.name), (err) => {
-        if (!err) {
-          res.status(200).send("uploaded");
-        }
-      });
+    const image = new ImageUpload({
+      Name: req.body.Name,
+      UserURL: req.body.UserIMG,
+      Filename: Name.replace(/ /g, "_"),
+      Location: req.body.Location,
+      Tags: req.body.Tags,
+      UploaderID: req.body.UploaderID,
+      Url: data.url,
     });
-  } catch (err) {
-    console.log(err);
-  }
+    await image.save().catch((e) => {
+      console.log(e);
+    });
+    fs.unlink(path.join(__dirname, "uploads", Image.name), (err) => {
+      if (!err) {
+        res.status(200).send("uploaded");
+      }
+    });
+  });
 });
 Router.delete("/:imageID", async (req, res) => {
   try {
