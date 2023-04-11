@@ -22,10 +22,12 @@ Router.post("/file/upload", async (req, res) => {
       );
       const date = new Date();
       const image = new ImageUpload({
-        Name: req.body.Name,
+        Name: req.body.UserName,
         UserURL: req.body.UserIMG,
-        Filename: Image.name,
+        Filename: req.body.Name,
         Date: date,
+        Location: req.body.Location,
+        Tags: req.body.Tags,
         UploaderID: req.body.UploaderID,
         Url: data.url,
       });
