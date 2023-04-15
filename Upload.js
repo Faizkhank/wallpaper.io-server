@@ -14,6 +14,7 @@ cloudinary.config({
 dotenv.config();
 Router.post("/file/upload", async (req, res) => {
   const { Image } = req.files;
+  console.log(req.header("x-api-key"));
   const Name = req.body.ImageName;
   if (!Image) return res.sendStatus(400);
   Image.mv(__dirname + "/uploads/" + Image.name, async (err) => {
