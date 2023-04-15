@@ -16,6 +16,7 @@ const follow = require("./follow");
 const cors = require("cors");
 app.use(express.static("uploads"));
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: false, limit: "2gb" }));
 app.use(
   cors({
@@ -43,18 +44,17 @@ app.use(passport.session());
 app.get("/", (req, res) => {
   res.send("API_RUNNING");
 });
-
-app.get("/user/:id", async (req, res) => {
+app.get("/user/:id", API.authenticateKey, async (req, res) => {
   const data = await getdata({ UploaderID: req.params.id });
   if (data) res.send(data);
   res.status(404);
 });
-app.get("/home", async (req, res) => {
+app.get("/home", API.authenticateKey, async (req, res) => {
   const data = await getdata();
   if (data) res.send(data);
   res.status(404);
 });
-app.get("/users/info/:id", async (req, res) => {
+app.get("/users/info/:id", API.authenticateKey, async (req, res) => {
   const id = req.params.id;
   try {
     await User.find({ GoogleID: id }, (err, user) => {
@@ -68,7 +68,7 @@ app.get("/users/info/:id", async (req, res) => {
     });
   } catch (err) {}
 });
-app.get("/filter/follower", async (req, res) => {
+app.get("/filter/follower", API.authenticateKey, async (req, res) => {
   const id = req.user.id;
   var ids = [];
   try {
@@ -83,12 +83,12 @@ app.get("/filter/follower", async (req, res) => {
     res.send(false);
   } catch (err) {}
 });
-app.use("/", Like);
+app.use("/", API.authenticateKey, Like);
 app.use("/", authRoute);
-app.use("/", Upload);
-app.use("/", follow);
+app.use("/", API.authenticateKey, Upload);
+app.use("/", API.authenticateKey, follow);
 app.use("/", search);
-app.use("/", Imagegen);
+app.use("/", API.authenticateKey, Imagegen);
 app.listen(process.env.PORT || 4000, () => {
   console.log("Server runnings");
 });
