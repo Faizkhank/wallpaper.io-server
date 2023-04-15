@@ -45,17 +45,17 @@ app.use(API.authenticateKey);
 app.get("/", (req, res) => {
   res.send("API_RUNNING");
 });
-app.get("/user/:id", API.authenticateKey, async (req, res) => {
+app.get("/user/:id", async (req, res) => {
   const data = await getdata({ UploaderID: req.params.id });
   if (data) res.send(data);
   res.status(404);
 });
-app.get("/home", API.authenticateKey, async (req, res) => {
+app.get("/home", async (req, res) => {
   const data = await getdata();
   if (data) res.send(data);
   res.status(404);
 });
-app.get("/users/info/:id", API.authenticateKey, async (req, res) => {
+app.get("/users/info/:id", async (req, res) => {
   const id = req.params.id;
   try {
     await User.find({ GoogleID: id }, (err, user) => {
@@ -69,7 +69,7 @@ app.get("/users/info/:id", API.authenticateKey, async (req, res) => {
     });
   } catch (err) {}
 });
-app.get("/filter/follower", API.authenticateKey, async (req, res) => {
+app.get("/filter/follower", async (req, res) => {
   const id = req.user.id;
   var ids = [];
   try {
