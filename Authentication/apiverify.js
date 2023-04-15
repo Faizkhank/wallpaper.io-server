@@ -1,7 +1,8 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const authenticateKey = (req, res, next) => {
-  let api_key = req.headers("x-api-key");
+  let api_key = req.header("x-api-key");
+console.log(api_Key);
   const nonSecurePaths = ["/logout", "/google", "/google/callback"];
   if (nonSecurePaths.includes(req.path)) return next();
   if (api_key === process.env.API_KEY_WALLPAPER) {
