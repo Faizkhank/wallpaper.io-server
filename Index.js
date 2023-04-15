@@ -41,6 +41,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(API.authenticateKey);
 app.get("/", (req, res) => {
   res.send("API_RUNNING");
 });
@@ -83,12 +84,12 @@ app.get("/filter/follower", API.authenticateKey, async (req, res) => {
     res.send(false);
   } catch (err) {}
 });
-app.use("/", API.authenticateKey, Like);
+app.use("/", Like);
 app.use("/", authRoute);
-app.use("/", API.authenticateKey, Upload);
-app.use("/", API.authenticateKey, follow);
+app.use("/", Upload);
+app.use("/", follow);
 app.use("/", search);
-app.use("/", API.authenticateKey, Imagegen);
+app.use("/", Imagegen);
 app.listen(process.env.PORT || 4000, () => {
   console.log("Server runnings");
 });
