@@ -21,7 +21,7 @@ Router.post("/gen", async (req, res) => {
     });
 
     const imageUrl = response.data.data[0].url;
-
+    console.log(imageUrl);
     res.status(200).json({
       success: true,
       data: imageUrl,
