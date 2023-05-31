@@ -41,7 +41,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(API.authenticateKey);
 app.get("/", (req, res) => {
   res.send("API_RUNNING");
 });
