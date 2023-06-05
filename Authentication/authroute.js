@@ -42,12 +42,25 @@ Router.get(
   })
 );
 Router.post("/user/login", passport.authenticate("local"), (req, res) => {
-  res.cookie("sessionid", "user", {
-    secure: true, // Set the secure flag to true
-    httpOnly: true,
-    sameSite: "none",
-  });
-  res.send(true);
+  if (req.user) {
+    res
+      .cookie("sessionid", "user", {
+        secure: true, // Set the secure flag to true
+        httpOnly: true,
+        sameSite: "none",
+      })
+      .json({
+        success: true,
+        message: "successful",
+        user: req.user,
+      });
+  } else {
+    // Handle the case where authentication fails
+    res.json({
+      success: false,
+      message: "authentication failed",
+    });
+  }
 });
 Router.post("/register", (req, res) => {
   User.findOne({ email: req.body.email }, async (err, user) => {
