@@ -55,10 +55,10 @@ Router.post("/register", (req, res) => {
       const randomNum = generateRandomNumber();
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const newUser = new User({
-        username: req.body.username,
+        username: req.body.first_name,
         email: req.body.email,
         GoogleID: randomNum,
-        displayName: req.body.username,
+        displayName: req.body.first_name + " " + req.body.last_name,
         password: hashedPassword,
       });
       await newUser.save();
