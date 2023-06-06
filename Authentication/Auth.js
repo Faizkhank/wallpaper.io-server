@@ -43,7 +43,7 @@ passport.use(
             const userlog = {
               displayName: data[0].displayName,
               photos: data[0].photos,
-              id: data[0].GoogleID,
+              id: data[0]._id,
               Totallikes: data[0].Totallikes,
               followers: data[0].followers,
             };
@@ -66,7 +66,7 @@ passport.deserializeUser((user, done) => {
     const userlog = {
       displayName: data[0].displayName,
       photos: data[0].photos,
-      id: data[0].GoogleID,
+      id: data[0]._id,
       Totallikes: data[0].Totallikes,
       followers: data[0].followers,
     };

@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   photos: String,
   email: String,
   password: String,
+  About: String,
   Totallikes: { type: Number, default: "0" },
   followers: [{ followers: String }],
   Totalviews: { type: Number, default: "0" },
