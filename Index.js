@@ -66,6 +66,7 @@ app.get("/users/info/:id", async (req, res) => {
         followers: user.followerscount,
         photos: user.photos,
         id: user._id,
+        About: user.About,
       });
     });
   } catch (err) {}
