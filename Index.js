@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false, limit: "2gb" }));
 app.use(
   cors({
-    origin: ["https://wallpaper-weld.vercel.app", "http://localhost:3000"],
+    origin: ["https://wallpaper-weld.vercel.app/", "http://localhost:3000/"],
     credentials: true,
   })
 );
