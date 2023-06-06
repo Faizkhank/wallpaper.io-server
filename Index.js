@@ -64,7 +64,7 @@ app.get("/users/info/:id", async (req, res) => {
         Totallikes: user[0].Totallikes,
         followers: user[0].followerscount,
         photos: user[0].photos,
-        id: user[0].GoogleID,
+        id: user[0]._id,
       });
     });
   } catch (err) {}
@@ -73,7 +73,7 @@ app.get("/filter/follower", async (req, res) => {
   const id = req.user.id;
   var ids = [];
   try {
-    const user = await User.find({ GoogleID: id });
+    const user = await User.findById(id);
     user[0].followers.forEach((items) => {
       ids.push(items.followers);
     });

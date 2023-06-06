@@ -47,7 +47,7 @@ Router.delete("/:imageID", async (req, res) => {
   try {
     const Name = await ImageUpload.findById(req.params.imageID);
     console.log(req.user);
-    if (Name.UploaderID === req.user.id) {
+    if (Name.UploaderID === req.user._id) {
       const NameSplit = Name.Url.split("/");
       console.log(NameSplit);
       const NameID = NameSplit[NameSplit.length - 1].split(".");

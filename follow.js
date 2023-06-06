@@ -8,7 +8,7 @@ Router.put("/follow/:userID/:followID", async (req, res) => {
   if (found) {
     // User is not following, so add follower
     await User.findOneAndUpdate(
-      { GoogleID: userID },
+      { _id: userID },
       {
         $pull: {
           followers: { followers: id },
@@ -20,7 +20,7 @@ Router.put("/follow/:userID/:followID", async (req, res) => {
   } else {
     // User is following, so remove follower
     await User.findOneAndUpdate(
-      { GoogleID: userID },
+      { _id: userID },
       {
         $push: {
           followers: { followers: id },
