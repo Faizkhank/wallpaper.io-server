@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false, limit: "2gb" }));
 app.use(
   cors({
-    origin: ["https://wallpaper-weld.vercel.app/", "http://localhost:3000/"],
+    origin: ["https://wallpaper-weld.vercel.app", "http://localhost:3000"],
     credentials: true,
   })
 );
@@ -59,12 +59,13 @@ app.get("/users/info/:id", async (req, res) => {
   const id = req.params.id;
   try {
     await User.findById(id, (err, user) => {
+      console.log(user);
       res.json({
-        displayName: user[0].displayName,
-        Totallikes: user[0].Totallikes,
-        followers: user[0].followerscount,
-        photos: user[0].photos,
-        id: user[0]._id,
+        displayName: user.displayName,
+        Totallikes: user.Totallikes,
+        followers: user.followerscount,
+        photos: user.photos,
+        id: user._id,
       });
     });
   } catch (err) {}
