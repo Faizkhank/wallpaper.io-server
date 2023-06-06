@@ -4,7 +4,7 @@ Router.put("/follow/:userID/:followID", async (req, res) => {
   const userID = req.params.userID;
   const id = req.params.followID;
   const Usersave = await User.findById(userID);
-  const found = Usersave[0].followers.some((item) => item.followers === id);
+  const found = Usersave.followers.some((item) => item.followers === id);
   if (found) {
     // User is not following, so add follower
     await User.findOneAndUpdate(
@@ -40,7 +40,7 @@ Router.get("/checkfollow/:followID/:followerID", async (req, res) => {
   const id = req.params.followID;
 
   User.findById(id, (err, result) => {
-    const found = result[0].followers.some((item) => item.followers === userid);
+    const found = result.followers.some((item) => item.followers === userid);
     if (found) {
       res.send(true);
     } else {
