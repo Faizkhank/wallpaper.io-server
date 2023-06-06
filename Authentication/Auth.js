@@ -46,6 +46,7 @@ passport.use(
               id: data[0]._id,
               Totallikes: data[0].Totallikes,
               followers: data[0].followers,
+              About: data[0].About,
             };
             return done(null, userlog);
           });
@@ -69,6 +70,7 @@ passport.deserializeUser((user, done) => {
       id: data[0]._id,
       Totallikes: data[0].Totallikes,
       followers: data[0].followers,
+      About: data[0].About,
     };
     done(null, userlog);
   });
