@@ -10,6 +10,7 @@ const passportSetup = require("./Authentication/Auth");
 const User = require("./Models/UserSchema");
 const getdata = require("./Getdata");
 const search = require("./search");
+const Updates = require("./Updates/Updates");
 const Imagegen = require("./AI/image_generation");
 const API = require("./Authentication/apiverify"); // not using right now
 const follow = require("./follow");
@@ -57,7 +58,7 @@ app.get("/home", async (req, res) => {
 app.get("/users/info/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    await User.find({ GoogleID: id }, (err, user) => {
+    await User.findById(id, (err, user) => {
       res.json({
         displayName: user[0].displayName,
         Totallikes: user[0].Totallikes,
@@ -89,6 +90,7 @@ app.use("/", Upload);
 app.use("/", follow);
 app.use("/", search);
 app.use("/", Imagegen);
+app.use("/", Updates);
 app.listen(process.env.PORT || 4000, () => {
   console.log("Server runnings");
 });

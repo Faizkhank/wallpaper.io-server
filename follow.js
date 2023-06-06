@@ -3,7 +3,7 @@ const User = require("./Models/UserSchema");
 Router.put("/follow/:userID/:followID", async (req, res) => {
   const userID = req.params.userID;
   const id = req.params.followID;
-  const Usersave = await User.find({ GoogleID: userID });
+  const Usersave = await User.findById(userID);
   const found = Usersave[0].followers.some((item) => item.followers === id);
   if (found) {
     // User is not following, so add follower
@@ -39,7 +39,7 @@ Router.get("/checkfollow/:followID/:followerID", async (req, res) => {
   console.log(req.params.followID);
   const id = req.params.followID;
 
-  User.find({ GoogleID: id }, (err, result) => {
+  User.findById(id, (err, result) => {
     const found = result[0].followers.some((item) => item.followers === userid);
     if (found) {
       res.send(true);

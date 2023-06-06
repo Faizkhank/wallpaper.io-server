@@ -1,10 +1,9 @@
 const Router = require("express").Router();
 const User = require("../Models/UserSchema");
 Router.put("/users/:userId/about", async (req, res) => {
-  console.log(req.user);
   const { userId } = req.params;
-  const { about } = req.body.about;
-
+  const { about } = req.body;
+  console.log(about);
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -19,3 +18,5 @@ Router.put("/users/:userId/about", async (req, res) => {
     res.status(500).json({ error: "An error occurred" });
   }
 });
+
+module.exports = Router;

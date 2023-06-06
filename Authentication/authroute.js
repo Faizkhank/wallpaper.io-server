@@ -43,17 +43,11 @@ Router.get(
 );
 Router.post("/user/login", passport.authenticate("local"), (req, res) => {
   if (req.user) {
-    res
-      .cookie("sessionid", "user", {
-        secure: true, // Set the secure flag to true
-        httpOnly: true,
-        sameSite: "none",
-      })
-      .json({
-        success: true,
-        message: "successful",
-        user: req.user,
-      });
+    res.json({
+      success: true,
+      message: "successful",
+      user: req.user,
+    });
   } else {
     // Handle the case where authentication fails
     res.json({
