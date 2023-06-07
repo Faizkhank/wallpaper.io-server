@@ -41,20 +41,35 @@ Router.get(
     successRedirect: CLIENT_URL,
   })
 );
-Router.post("/user/login", passport.authenticate("local"), (req, res) => {
-  if (req.user) {
-    res.json({
-      success: true,
-      message: "successful",
-      user: req.user,
+Router.post("/user/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return res.json({
+        success: false,
+        message: "An error occurred during authentication",
+      });
+    }
+    if (!user) {
+      return res.json({
+        success: false,
+        message: info && info.message ? info.message : "Authentication failed",
+      });
+    }
+    // Authentication successful
+    req.logIn(user, (err) => {
+      if (err) {
+        return res.json({
+          success: false,
+          message: "An error occurred during login",
+        });
+      }
+      return res.json({
+        success: true,
+        message: "Authentication successful",
+        user: user,
+      });
     });
-  } else {
-    // Handle the case where authentication fails
-    res.json({
-      success: false,
-      message: "authentication failed",
-    });
-  }
+  })(req, res, next);
 });
 Router.post("/register", (req, res) => {
   User.findOne({ email: req.body.email }, async (err, user) => {
