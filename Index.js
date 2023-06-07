@@ -40,11 +40,13 @@ app.use(
     },
   })
 );
+app.use(API.authenticateKey);
 app.use(passport.initialize());
 app.use(passport.session());
 app.get("/", (req, res) => {
   res.send("API_RUNNING");
 });
+
 app.get("/user/:id", async (req, res) => {
   const data = await getdata({ UploaderID: req.params.id });
   if (data) res.send(data);
