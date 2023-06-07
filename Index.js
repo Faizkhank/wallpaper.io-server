@@ -40,7 +40,7 @@ app.use(
     },
   })
 );
-app.use(API.authenticateKey);
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.get("/", (req, res) => {
