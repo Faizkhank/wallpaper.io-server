@@ -1,4 +1,5 @@
 const Router = require("express").Router();
+const bcrypt = require("bcryptjs");
 const User = require("../Models/UserSchema");
 
 Router.put("/users/:userId/about", async (req, res) => {
@@ -19,11 +20,11 @@ Router.put("/users/:userId/about", async (req, res) => {
     res.status(500).json({ error: "An error occurred" });
   }
 });
-Router.post("/check-password", async (req, res) => {
+Router.post("/check-password/:userid", async (req, res) => {
   const { Password } = req.body;
 
-  const user = await User.findById(req.user._id);
-  const match = await bcrypt.compare(Password, user.Password);
+  const user = await User.findById(req.params.userid);
+  const match = await bcrypt.compare(Password, user.password);
   if (match) {
     res.json({ success: true });
   } else {
@@ -31,12 +32,12 @@ Router.post("/check-password", async (req, res) => {
   }
 });
 
-Router.post("/update-password", async (req, res) => {
+Router.post("/update-password/:userid", async (req, res) => {
   const { Password } = req.body;
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(Password, salt);
-  const user = await User.findByIdAndUpdate(req.user._id, {
-    Password: hash,
+  const hash = await bcrypt.hash(Password, 10);
+  const id = req.params.userid;
+  const user = await User.findByIdAndUpdate(id, {
+    password: hash,
   });
   res.json({ success: true });
 });
