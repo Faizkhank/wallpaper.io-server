@@ -75,6 +75,7 @@ Router.post("/user/login", (req, res, next) => {
             maxAge: 86400000, // Set the maxAge to your desired session expiration time
             httpOnly: true,
             secure: true, // Set secure to true if using HTTPS
+            sameSite: "none",
           })
           .json({
             success: true,
