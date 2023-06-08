@@ -72,6 +72,11 @@ Router.post("/ProfileUpdate/upload/:UserID", async (req, res) => {
     const user = await User.findById(id);
     user.photos = data.url;
     await user.save();
+    fs.unlink(path.join(__dirname, "uploads", Image.name), (err) => {
+      if (!err) {
+        res.status(200).json({ message: "Profile image Upadated" });
+      }
+    });
   });
 });
 module.exports = Router;

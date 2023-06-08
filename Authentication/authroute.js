@@ -63,10 +63,24 @@ Router.post("/user/login", (req, res, next) => {
           message: "An error occurred during login",
         });
       }
-      return res.json({
-        success: true,
-        message: "Authentication successful",
-        user: user,
+      req.session.save((err) => {
+        if (err) {
+          return res.json({
+            success: false,
+            message: "An error occurred while saving session",
+          });
+        }
+        return res
+          .cookie("session", req.session.id, {
+            maxAge: 86400000, // Set the maxAge to your desired session expiration time
+            httpOnly: true,
+            secure: false, // Set secure to true if using HTTPS
+          })
+          .json({
+            success: true,
+            message: "Authentication successful",
+            user: user,
+          });
       });
     });
   })(req, res, next);
