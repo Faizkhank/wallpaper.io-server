@@ -40,49 +40,25 @@ Router.get(
     successRedirect: CLIENT_URL,
   })
 );
-Router.post("/user/login", (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
-    if (err) {
-      return res.json({
-        success: false,
-        message: "An error occurred during authentication",
+Router.post("/user/login", passport.authenticate("local"), (req, res) => {
+  if (req.user) {
+    res
+      .cookie("session", req.session.id, {
+        maxAge: 86400000, // Set the maxAge to your desired session expiration time
+        httpOnly: true,
+        secure: true, // Set secure to true if using HTTPS
+        sameSite: "none",
+      })
+      .json({
+        success: true,
+        message: "Authentication successful",
       });
-    }
-    if (!user) {
-      return res.json({
-        success: false,
-        message: info && info.message ? info.message : "Authentication failed",
-      });
-    }
-    // Authentication successful
-    req.logIn(user, (err) => {
-      if (err) {
-        return res.json({
-          success: false,
-          message: "An error occurred during login",
-        });
-      }
-      req.session.save((err) => {
-        if (err) {
-          return res.json({
-            success: false,
-            message: "An error occurred while saving session",
-          });
-        }
-        return res
-          .cookie("session", req.session.id, {
-            maxAge: 86400000, // Set the maxAge to your desired session expiration time
-            httpOnly: true,
-            secure: true, // Set secure to true if using HTTPS
-            sameSite: "none",
-          })
-          .json({
-            success: true,
-            message: "Authentication successful",
-          });
-      });
+  } else {
+    res.json({
+      success: false,
+      message: "An error occurred during login",
     });
-  })(req, res, next);
+  }
 });
 Router.post("/register", (req, res) => {
   User.findOne({ email: req.body.email }, async (err, user) => {
