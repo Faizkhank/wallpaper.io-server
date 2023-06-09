@@ -73,20 +73,20 @@ app.get("/users/info/:id", async (req, res) => {
     });
   } catch (err) {}
 });
-app.get("/filter/follower", async (req, res) => {
-  const id = req.user.id;
+app.get("/filter/follower/:userid", async (req, res) => {
+  const id = req.params.userid;
   var ids = [];
-  try {
-    const user = await User.findById(id);
-    user[0].followers.forEach((items) => {
-      ids.push(items.followers);
-    });
-    const followerdata = await getdata({ UploaderID: { $in: ids } });
-    if (followerdata) {
-      res.send(followerdata);
-    }
+
+  const user = await User.findById(id);
+  user.followers.forEach((items) => {
+    ids.push(items.followers);
+  });
+  const followerdata = await getdata({ UploaderID: { $in: ids } });
+  if (followerdata) {
+    res.send(followerdata);
+  } else {
     res.send(false);
-  } catch (err) {}
+  }
 });
 app.use("/", Like);
 app.use("/", authRoute);
