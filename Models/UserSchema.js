@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   About: String,
   Totallikes: { type: Number, default: "0" },
   followers: [{ followers: String }],
+  follow: [{ followers: String }],
   Totalviews: { type: Number, default: "0" },
   followerscount: { type: Number, default: "0" },
 });

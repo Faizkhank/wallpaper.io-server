@@ -78,7 +78,7 @@ app.get("/filter/follower/:userid", async (req, res) => {
   var ids = [];
 
   const user = await User.findById(id);
-  user.followers.forEach((items) => {
+  user.follow.forEach((items) => {
     ids.push(items.followers);
   });
   const followerdata = await getdata({ UploaderID: { $in: ids } });

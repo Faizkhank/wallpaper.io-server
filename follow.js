@@ -17,6 +17,14 @@ Router.put("/follow/:userID/:followID", async (req, res) => {
           $inc: { followerscount: -1 },
         }
       );
+      await User.findOneAndUpdate(
+        { _id: id },
+        {
+          $pull: {
+            follow: { followers: userID },
+          },
+        }
+      );
       res.send(false);
     } else {
       // User is following, so remove follower
@@ -29,7 +37,14 @@ Router.put("/follow/:userID/:followID", async (req, res) => {
           $inc: { followerscount: 1 },
         }
       );
-
+      await User.findOneAndUpdate(
+        { _id: id },
+        {
+          $push: {
+            follow: { followers: userID },
+          },
+        }
+      );
       res.send(true);
     }
   } catch (error) {
