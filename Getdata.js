@@ -3,7 +3,7 @@ const User = require("./Models/UserSchema");
 const getdata = async (filter) => {
   const data = await ImageUpload.find(filter)
     .limit(10)
-    .sort({ createdAt: "acs" });
+    .sort({createdAt: "asc"});
 
   if (data) {
     var result = [];
